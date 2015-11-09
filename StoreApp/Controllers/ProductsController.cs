@@ -71,7 +71,19 @@ namespace StoreApp.Controllers
             {
                 return HttpNotFound();
             }
-            return View(product);
+
+            List<int> details_ids = product.ProductsDetails.Select(pd => pd.detail_id).ToList();
+
+            List<Detail> details = db.Details.Where(d => details_ids.Contains(d.id)).ToList();
+
+            ProductEditViewModel model = new ProductEditViewModel()
+            {
+                product = product,
+                details = details
+            };
+
+            return View(model);
+            //return View(product);
         }
 
         // POST: Products/Edit/5
@@ -88,6 +100,61 @@ namespace StoreApp.Controllers
                 return RedirectToAction("Index");
             }
             return View(product);
+        }
+
+        public async Task<ActionResult> EditDetail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ProductsDetail productsDetail = await db.ProductsDetails.Where(el => el.id == id.Value).FirstOrDefaultAsync();//await db.ProductsDetails.FindAsync(id);
+            if (productsDetail == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.detail_id = new SelectList(db.Details, "id", "name", productsDetail.detail_id);
+            ViewBag.product_id = new SelectList(db.Products, "id", "name", productsDetail.product_id);
+            return View(productsDetail);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditDetail([Bind(Include = "id,product_id,detail_id,count")] ProductsDetail productsDetail)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(productsDetail).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.detail_id = new SelectList(db.Details, "id", "name", productsDetail.detail_id);
+            ViewBag.product_id = new SelectList(db.Products, "id", "name", productsDetail.product_id);
+            return View(productsDetail);
+        }
+
+        public async Task<ActionResult> DeleteDetail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ProductsDetail productsDetail = await db.ProductsDetails.FindAsync(id);
+            if (productsDetail == null)
+            {
+                return HttpNotFound();
+            }
+            return View(productsDetail);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteDetailConfirmed(int id)
+        {
+            ProductsDetail productsDetail = await db.ProductsDetails.FindAsync(id);
+            db.ProductsDetails.Remove(productsDetail);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET: Products/Delete/5

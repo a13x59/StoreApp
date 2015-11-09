@@ -1,0 +1,28 @@
+﻿@model IEnumerable<StoreApp.Models.StatisticsViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Статистика</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.productName)
+        </th>
+        <th>@Html.DisplayNameFor(model => model.count)</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.productName)
+            </td>
+            <td>
+                @Html.DisplayFor(el => item.count )
+            </td>
+        </tr>
+    }
+
+</table>

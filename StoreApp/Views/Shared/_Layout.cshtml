@@ -16,7 +16,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Storage app", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Store app", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -24,16 +24,13 @@
                     <li>@Html.ActionLink("Детали", "Index", "Details")</li>
                     <li>@Html.ActionLink("Схемы", "Index", "ProductsDetails")</li>
                     <li>@Html.ActionLink("Продукты", "Index", "Products")</li>
+                    <li>@Html.ActionLink("Статистика", "Index", "Statistics")</li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Store App</p>
-        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

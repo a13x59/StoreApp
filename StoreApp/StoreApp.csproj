@@ -135,6 +135,7 @@
     <Compile Include="Controllers\MaterialsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProductsDetailsController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -151,15 +152,11 @@
       <DependentUpon>StoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductViewModels.cs" />
+    <Compile Include="Models\StatisticsViewModel.cs" />
     <Compile Include="Models\StoreModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StoreModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\StoreModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StoreModel.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -246,6 +243,8 @@
     <Content Include="Views\Materials\Details.cshtml" />
     <Content Include="Views\Materials\Edit.cshtml" />
     <Content Include="Views\Materials\Index.cshtml" />
+    <Content Include="Views\Statistics\Index.cshtml" />
+    <Content Include="Views\Products\EditDetails.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

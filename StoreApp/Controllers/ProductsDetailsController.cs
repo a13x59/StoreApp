@@ -71,7 +71,7 @@ namespace StoreApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductsDetail productsDetail = await db.ProductsDetails.FindAsync(id);
+            ProductsDetail productsDetail = await db.ProductsDetails.Where(el => el.id == id.Value).FirstOrDefaultAsync();//await db.ProductsDetails.FindAsync(id);
             if (productsDetail == null)
             {
                 return HttpNotFound();

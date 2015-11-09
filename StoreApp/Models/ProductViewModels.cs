@@ -5,10 +5,10 @@ using System.Web;
 
 namespace StoreApp.Models
 {
-    public class ProductEditViewModels
+    public class ProductEditViewModel
     {
-        Product product { get; set; }
+        public Product product { get; set; }
 
-        List<Detail> details { get; set; }
+        public List<Detail> details { get; set; }
     }
 }
