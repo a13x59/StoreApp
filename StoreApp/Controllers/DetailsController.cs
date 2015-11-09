@@ -18,7 +18,7 @@ namespace StoreApp.Controllers
         // GET: Details
         public async Task<ActionResult> Index()
         {
-            var details = db.Details.Include(d => d.Store);
+            var details = db.Details.Include(d => d.Material);
             return View(await details.ToListAsync());
         }
 
@@ -40,7 +40,7 @@ namespace StoreApp.Controllers
         // GET: Details/Create
         public ActionResult Create()
         {
-            ViewBag.material_id = new SelectList(db.Stores, "material_id", "name");
+            ViewBag.material_id = new SelectList(db.Materials, "material_id", "name");
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace StoreApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.material_id = new SelectList(db.Stores, "material_id", "name", detail.material_id);
+            ViewBag.material_id = new SelectList(db.Materials, "material_id", "name", detail.material_id);
             return View(detail);
         }
 
@@ -74,7 +74,7 @@ namespace StoreApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.material_id = new SelectList(db.Stores, "material_id", "name", detail.material_id);
+            ViewBag.material_id = new SelectList(db.Materials, "material_id", "name", detail.material_id);
             return View(detail);
         }
 
@@ -91,7 +91,7 @@ namespace StoreApp.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.material_id = new SelectList(db.Stores, "material_id", "name", detail.material_id);
+            ViewBag.material_id = new SelectList(db.Materials, "material_id", "name", detail.material_id);
             return View(detail);
         }
 

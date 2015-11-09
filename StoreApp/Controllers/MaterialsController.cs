@@ -11,107 +11,107 @@ using StoreApp.Models;
 
 namespace StoreApp.Controllers
 {
-    public class StoreController : Controller
+    public class MaterialsController : Controller
     {
         private StorageDataBaseEntities db = new StorageDataBaseEntities();
 
-        // GET: Store
+        // GET: Materials
         public async Task<ActionResult> Index()
         {
-            return View(await db.Stores.ToListAsync());
+            return View(await db.Materials.ToListAsync());
         }
 
-        // GET: Store/Details/5
+        // GET: Materials/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Store store = await db.Stores.FindAsync(id);
-            if (store == null)
+            Material material = await db.Materials.FindAsync(id);
+            if (material == null)
             {
                 return HttpNotFound();
             }
-            return View(store);
+            return View(material);
         }
 
-        // GET: Store/Create
+        // GET: Materials/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Store/Create
+        // POST: Materials/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "material_id,name,count")] Store store)
+        public async Task<ActionResult> Create([Bind(Include = "material_id,name,count")] Material material)
         {
             if (ModelState.IsValid)
             {
-                db.Stores.Add(store);
+                db.Materials.Add(material);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(store);
+            return View(material);
         }
 
-        // GET: Store/Edit/5
+        // GET: Materials/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Store store = await db.Stores.FindAsync(id);
-            if (store == null)
+            Material material = await db.Materials.FindAsync(id);
+            if (material == null)
             {
                 return HttpNotFound();
             }
-            return View(store);
+            return View(material);
         }
 
-        // POST: Store/Edit/5
+        // POST: Materials/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "material_id,name,count")] Store store)
+        public async Task<ActionResult> Edit([Bind(Include = "material_id,name,count")] Material material)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(store).State = EntityState.Modified;
+                db.Entry(material).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(store);
+            return View(material);
         }
 
-        // GET: Store/Delete/5
+        // GET: Materials/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Store store = await db.Stores.FindAsync(id);
-            if (store == null)
+            Material material = await db.Materials.FindAsync(id);
+            if (material == null)
             {
                 return HttpNotFound();
             }
-            return View(store);
+            return View(material);
         }
 
-        // POST: Store/Delete/5
+        // POST: Materials/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Store store = await db.Stores.FindAsync(id);
-            db.Stores.Remove(store);
+            Material material = await db.Materials.FindAsync(id);
+            db.Materials.Remove(material);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

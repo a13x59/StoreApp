@@ -132,13 +132,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MaterialsController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProductsDetailsController.cs" />
-    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Detail.cs">
+      <DependentUpon>StoreModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Material.cs">
       <DependentUpon>StoreModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs">
@@ -147,9 +150,7 @@
     <Compile Include="Models\ProductsDetail.cs">
       <DependentUpon>StoreModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Store.cs">
-      <DependentUpon>StoreModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\ProductViewModels.cs" />
     <Compile Include="Models\StoreModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -225,11 +226,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Store\Create.cshtml" />
-    <Content Include="Views\Store\Delete.cshtml" />
-    <Content Include="Views\Store\Details.cshtml" />
-    <Content Include="Views\Store\Edit.cshtml" />
-    <Content Include="Views\Store\Index.cshtml" />
     <Content Include="Views\Details\Create.cshtml" />
     <Content Include="Views\Details\Delete.cshtml" />
     <Content Include="Views\Details\Details.cshtml" />
@@ -245,6 +241,11 @@
     <Content Include="Views\ProductsDetails\Details.cshtml" />
     <Content Include="Views\ProductsDetails\Edit.cshtml" />
     <Content Include="Views\ProductsDetails\Index.cshtml" />
+    <Content Include="Views\Materials\Create.cshtml" />
+    <Content Include="Views\Materials\Delete.cshtml" />
+    <Content Include="Views\Materials\Details.cshtml" />
+    <Content Include="Views\Materials\Edit.cshtml" />
+    <Content Include="Views\Materials\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
