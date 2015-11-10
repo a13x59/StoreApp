@@ -4,22 +4,20 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Удаление детали из изделия</h2>
 
-<div>
+@*<div>
     @Html.ActionLink("Вернуться к редактированию продукта", "Edit", new { id = @Model.Product.id})
-</div>
+</div>*@
 
 <h3>Вы уверены что хотиту удалить указанную деталь из издения?</h3>
 <div>
-    <hr />
-
-    <div>
+    <p>
         <span>Удаление детали <b>@Html.DisplayFor(model => model.Detail.name)</b> из изделия <b>@Html.DisplayFor(model => model.Product.name)</b></span>
-    </div>
-    <div>
-        <span>Количество деталей - <b>@Html.DisplayFor(model => model.count)</b></span>
-    </div>
+    </p>
+    <p>
+        <span>Количество деталей в изделии - <b>@Html.DisplayFor(model => model.count) шт</b></span>
+    </p>
 
     @using (Html.BeginForm())
     {
@@ -27,7 +25,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Удалить" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Вернуться к редактированию изделия", "Edit", new { id = @Model.Product.id })
         </div>
     }
 </div>

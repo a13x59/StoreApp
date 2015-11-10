@@ -15,7 +15,7 @@
             Наименование материала
         </th>
         <th>
-            Кол-во на складе
+            Количество на складе
         </th>
         <th></th>
     </tr>
@@ -29,9 +29,9 @@
             @Html.DisplayFor(modelItem => item.count)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.material_id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.material_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.material_id })
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.material_id }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.material_id }) |*@
+            @Html.ActionLink("Удалить", "Delete", new { id=item.material_id })
         </td>
     </tr>
 }

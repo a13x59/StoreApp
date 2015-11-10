@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Список деталей</h2>
+<h2>Детали</h2>
 
 <p>
     @Html.ActionLink("Добавить новую деталь", "Create")
@@ -35,9 +35,9 @@
             @Html.DisplayFor(modelItem => item.Material.name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.id }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.id }) |*@
+            @Html.ActionLink("Удалить", "Delete", new { id=item.id })
         </td>
     </tr>
 }
