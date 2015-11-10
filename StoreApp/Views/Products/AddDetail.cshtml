@@ -1,32 +1,35 @@
 ﻿@model StoreApp.Models.ProductsDetail
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
 }
 
-<h2>Edit</h2>
+<h2>Детали продукта</h2>
 
+<div>
+    @Html.ActionLink("Вернуться к редактированию продукта", "Edit", new { id = ViewBag.product.id })
+</div>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>ProductsDetail</h4>
+        <h4>Добавление детали к продукту</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
+        @Html.Hidden("product_id", ViewBag.product.id as int?)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.product_id, "product_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Продукт</label>
             <div class="col-md-10">
-                @Html.DropDownList("product_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.product_id, "", new { @class = "text-danger" })
+                <label class="control-label">@ViewBag.product.name</label>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.detail_id, "detail_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Деталь</label>
             <div class="col-md-10">
                 @Html.DropDownList("detail_id", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.detail_id, "", new { @class = "text-danger" })
@@ -34,7 +37,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.count, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">Количество</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.count, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.count, "", new { @class = "text-danger" })
@@ -43,7 +46,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Добавить" class="btn btn-default" />
             </div>
         </div>
     </div>

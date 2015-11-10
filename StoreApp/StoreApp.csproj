@@ -244,7 +244,9 @@
     <Content Include="Views\Materials\Edit.cshtml" />
     <Content Include="Views\Materials\Index.cshtml" />
     <Content Include="Views\Statistics\Index.cshtml" />
-    <Content Include="Views\Products\EditDetails.cshtml" />
+    <Content Include="Views\Products\EditDetail.cshtml" />
+    <Content Include="Views\Products\AddDetail.cshtml" />
+    <Content Include="Views\Products\DeleteDetail.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

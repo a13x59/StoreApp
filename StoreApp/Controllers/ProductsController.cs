@@ -59,6 +59,73 @@ namespace StoreApp.Controllers
             return View(product);
         }
 
+        public ActionResult AddDetail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Product product = db.Products.FirstOrDefault(p => p.id == id);
+
+            if (product == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.product = product;
+
+            IEnumerable<Detail> details = db.Details;
+
+            int[] productDetailsIds = product.ProductsDetails.Select(pd => pd.detail_id).ToArray();
+
+            if (productDetailsIds.Count() != 0)
+            {
+                details = db.Details.Where(d => !productDetailsIds.Contains(d.id));
+            }
+
+            ViewBag.detail_id = new SelectList(details, "id", "name");
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddDetail([Bind(Include = "id,product_id,detail_id,count")] ProductsDetail productsDetail)
+        {
+            if (ModelState.IsValid)
+            {
+                db.ProductsDetails.Add(productsDetail);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Edit", new { id = productsDetail.product_id });
+                //return RedirectToAction("Index");
+            }
+
+            Product product = db.Products.FirstOrDefault(p => p.id == productsDetail.product_id);
+
+            if (product == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.product = product;
+
+            //TODO - method
+            IEnumerable<Detail> details = db.Details;
+
+            int[] productDetailsIds = product.ProductsDetails.Select(pd => pd.detail_id).ToArray();
+
+            if (productDetailsIds.Count() != 0)
+            {
+                details = db.Details.Where(d => !productDetailsIds.Contains(d.id));
+            }
+
+
+            ViewBag.detail_id = new SelectList(details, "id", "name", productsDetail.detail_id);
+            //ViewBag.product_id = new SelectList(db.Products, "id", "name", productsDetail.product_id);
+            return View(productsDetail);
+        }
+
         // GET: Products/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -76,10 +143,17 @@ namespace StoreApp.Controllers
 
             List<Detail> details = db.Details.Where(d => details_ids.Contains(d.id)).ToList();
 
+            List<ProductDetailDto> productDetails = new List<ProductDetailDto>();
+
+            foreach (var productDetail in product.ProductsDetails)
+            {
+                productDetails.Add(new ProductDetailDto(productDetail, details));
+            }
+
             ProductEditViewModel model = new ProductEditViewModel()
             {
                 product = product,
-                details = details
+                details = productDetails
             };
 
             return View(model);
@@ -108,13 +182,16 @@ namespace StoreApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductsDetail productsDetail = await db.ProductsDetails.Where(el => el.id == id.Value).FirstOrDefaultAsync();//await db.ProductsDetails.FindAsync(id);
+
+            ProductsDetail productsDetail = await db.ProductsDetails.FirstOrDefaultAsync(el => el.id == id.Value);//await db.ProductsDetails.FindAsync(id);
+
             if (productsDetail == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.detail_id = new SelectList(db.Details, "id", "name", productsDetail.detail_id);
-            ViewBag.product_id = new SelectList(db.Products, "id", "name", productsDetail.product_id);
+            ViewBag.product = db.Products.First(el => el.id == productsDetail.product_id);
+            ViewBag.detail = db.Details.First(el => el.id == productsDetail.detail_id);
+
             return View(productsDetail);
         }
 
@@ -126,7 +203,7 @@ namespace StoreApp.Controllers
             {
                 db.Entry(productsDetail).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = productsDetail.product_id });
             }
             ViewBag.detail_id = new SelectList(db.Details, "id", "name", productsDetail.detail_id);
             ViewBag.product_id = new SelectList(db.Products, "id", "name", productsDetail.product_id);
@@ -139,7 +216,7 @@ namespace StoreApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductsDetail productsDetail = await db.ProductsDetails.FindAsync(id);
+            ProductsDetail productsDetail = await db.ProductsDetails.FirstOrDefaultAsync(pd => pd.id == id.Value);
             if (productsDetail == null)
             {
                 return HttpNotFound();
@@ -147,14 +224,14 @@ namespace StoreApp.Controllers
             return View(productsDetail);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteDetail")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteDetailConfirmed(int id)
         {
-            ProductsDetail productsDetail = await db.ProductsDetails.FindAsync(id);
+            ProductsDetail productsDetail = await db.ProductsDetails.FirstOrDefaultAsync(pd => pd.id == id);
             db.ProductsDetails.Remove(productsDetail);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Edit", new { id = productsDetail.product_id });
         }
 
         // GET: Products/Delete/5

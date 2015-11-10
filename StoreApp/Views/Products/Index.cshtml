@@ -4,12 +4,16 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Список доступных продуктов</h2>
+
+<p>
+    @Html.ActionLink("Добавить новый продукт", "Create")
+</p>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            Наименование
         </th>
         <th></th>
     </tr>
@@ -21,14 +25,9 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
 }
 
 </table>
-
-<p>
-    @Html.ActionLink("Add New", "Create")
-</p>

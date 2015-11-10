@@ -29,7 +29,9 @@ namespace StoreApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             ProductsDetail productsDetail = await db.ProductsDetails.FindAsync(id);
+
             if (productsDetail == null)
             {
                 return HttpNotFound();
@@ -78,6 +80,7 @@ namespace StoreApp.Controllers
             }
             ViewBag.detail_id = new SelectList(db.Details, "id", "name", productsDetail.detail_id);
             ViewBag.product_id = new SelectList(db.Products, "id", "name", productsDetail.product_id);
+
             return View(productsDetail);
         }
 

@@ -1,21 +1,21 @@
 ﻿@model IEnumerable<StoreApp.Models.Material>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Материалы";
 }
 
-<h2>Index</h2>
+<h2>Материалы</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить новый материал", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            Наименование материала
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.count)
+            Кол-во на складе
         </th>
         <th></th>
     </tr>

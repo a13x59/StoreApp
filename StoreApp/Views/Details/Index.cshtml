@@ -4,21 +4,21 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Список деталей</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить новую деталь", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            Наименование
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.count)
+            Количество материала для производства 1 детали
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Material.name)
+            Наименование материала
         </th>
         <th></th>
     </tr>
