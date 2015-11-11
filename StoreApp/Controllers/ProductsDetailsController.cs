@@ -30,13 +30,13 @@ namespace StoreApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ProductsDetail productsDetail = await db.ProductsDetails.FindAsync(id);
+            ProductsDetail productDetail = await db.ProductsDetails.FindAsync(id);
 
-            if (productsDetail == null)
+            if (productDetail == null)
             {
                 return HttpNotFound();
             }
-            return View(productsDetail);
+            return View(productDetail);
         }
 
         // GET: ProductsDetails/Create
@@ -52,18 +52,18 @@ namespace StoreApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,product_id,detail_id,count")] ProductsDetail productsDetail)
+        public async Task<ActionResult> Create([Bind(Include = "id,product_id,detail_id,count")] ProductsDetail productDetail)
         {
             if (ModelState.IsValid)
             {
-                db.ProductsDetails.Add(productsDetail);
+                db.ProductsDetails.Add(productDetail);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.detail_id = new SelectList(db.Details, "id", "name", productsDetail.detail_id);
-            ViewBag.product_id = new SelectList(db.Products, "id", "name", productsDetail.product_id);
-            return View(productsDetail);
+            ViewBag.detail_id = new SelectList(db.Details, "id", "name", productDetail.detail_id);
+            ViewBag.product_id = new SelectList(db.Products, "id", "name", productDetail.product_id);
+            return View(productDetail);
         }
 
         // GET: ProductsDetails/Edit/5
@@ -73,15 +73,15 @@ namespace StoreApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductsDetail productsDetail = await db.ProductsDetails.Where(el => el.id == id.Value).FirstOrDefaultAsync();//await db.ProductsDetails.FindAsync(id);
-            if (productsDetail == null)
+            ProductsDetail productDetail = await db.ProductsDetails.Where(el => el.id == id.Value).FirstOrDefaultAsync();//await db.ProductsDetails.FindAsync(id);
+            if (productDetail == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.detail_id = new SelectList(db.Details, "id", "name", productsDetail.detail_id);
-            ViewBag.product_id = new SelectList(db.Products, "id", "name", productsDetail.product_id);
+            ViewBag.detail_id = new SelectList(db.Details, "id", "name", productDetail.detail_id);
+            ViewBag.product_id = new SelectList(db.Products, "id", "name", productDetail.product_id);
 
-            return View(productsDetail);
+            return View(productDetail);
         }
 
         // POST: ProductsDetails/Edit/5
@@ -89,17 +89,17 @@ namespace StoreApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "id,product_id,detail_id,count")] ProductsDetail productsDetail)
+        public async Task<ActionResult> Edit([Bind(Include = "id,product_id,detail_id,count")] ProductsDetail productDetail)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(productsDetail).State = EntityState.Modified;
+                db.Entry(productDetail).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.detail_id = new SelectList(db.Details, "id", "name", productsDetail.detail_id);
-            ViewBag.product_id = new SelectList(db.Products, "id", "name", productsDetail.product_id);
-            return View(productsDetail);
+            ViewBag.detail_id = new SelectList(db.Details, "id", "name", productDetail.detail_id);
+            ViewBag.product_id = new SelectList(db.Products, "id", "name", productDetail.product_id);
+            return View(productDetail);
         }
 
         // GET: ProductsDetails/Delete/5
@@ -109,12 +109,12 @@ namespace StoreApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductsDetail productsDetail = await db.ProductsDetails.FindAsync(id);
-            if (productsDetail == null)
+            ProductsDetail productDetail = await db.ProductsDetails.FindAsync(id);
+            if (productDetail == null)
             {
                 return HttpNotFound();
             }
-            return View(productsDetail);
+            return View(productDetail);
         }
 
         // POST: ProductsDetails/Delete/5
@@ -122,8 +122,8 @@ namespace StoreApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ProductsDetail productsDetail = await db.ProductsDetails.FindAsync(id);
-            db.ProductsDetails.Remove(productsDetail);
+            ProductsDetail productDetail = await db.ProductsDetails.FindAsync(id);
+            db.ProductsDetails.Remove(productDetail);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

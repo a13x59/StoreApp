@@ -19,14 +19,5 @@ namespace StoreApp.Models
         public string name { set; get; }
 
         public int count { set; get; }
-
-        public ProductDetailDto(ProductsDetail productDetail, List<Detail> details)
-        {
-            Detail detail = details.FirstOrDefault(d => d.id == productDetail.detail_id);
-
-            id = productDetail.id;
-            name = detail == null ? String.Empty : detail.name;
-            count = productDetail.count;
-        }
     }
 }

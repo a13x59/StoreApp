@@ -8,32 +8,18 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StoreApp.Models;
+using StoreApp.DAL;
 
 namespace StoreApp.Controllers
 {
     public class MaterialsController : Controller
     {
-        private StorageDataBaseEntities db = new StorageDataBaseEntities();
+        private UnitOfWork unitOfWork = new UnitOfWork();
 
         // GET: Materials
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.Materials.ToListAsync());
-        }
-
-        // GET: Materials/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Material material = await db.Materials.FindAsync(id);
-            if (material == null)
-            {
-                return HttpNotFound();
-            }
-            return View(material);
+            return View(unitOfWork.MaterialsRepository.Get());
         }
 
         // GET: Materials/Create
@@ -47,12 +33,13 @@ namespace StoreApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "material_id,name,count")] Material material)
+        public ActionResult Create([Bind(Include = "material_id,name,count")] Material material)
         {
             if (ModelState.IsValid)
             {
-                db.Materials.Add(material);
-                await db.SaveChangesAsync();
+                unitOfWork.MaterialsRepository.Insert(material);
+                unitOfWork.Save();
+
                 return RedirectToAction("Index");
             }
 
@@ -60,13 +47,15 @@ namespace StoreApp.Controllers
         }
 
         // GET: Materials/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        //public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = await db.Materials.FindAsync(id);
+
+            Material material = unitOfWork.MaterialsRepository.GetById(id.Value);
             if (material == null)
             {
                 return HttpNotFound();
@@ -79,40 +68,45 @@ namespace StoreApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "material_id,name,count")] Material material)
+        //public async Task<ActionResult> Edit([Bind(Include = "material_id,name,count")] Material material)
+        public ActionResult Edit([Bind(Include = "material_id,name,count")] Material material)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(material).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                unitOfWork.MaterialsRepository.Update(material);
+                unitOfWork.Save();
+
                 return RedirectToAction("Index");
             }
             return View(material);
         }
 
         // GET: Materials/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = await db.Materials.FindAsync(id);
+            Material material = unitOfWork.MaterialsRepository.GetById(id);
+
             if (material == null)
             {
                 return HttpNotFound();
             }
+
             return View(material);
         }
 
         // POST: Materials/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Material material = await db.Materials.FindAsync(id);
-            db.Materials.Remove(material);
-            await db.SaveChangesAsync();
+            //Material detail = unitOfWork.MaterialsRepository.GetById(id);
+            unitOfWork.MaterialsRepository.Delete(id);
+            unitOfWork.Save();
+
             return RedirectToAction("Index");
         }
 
@@ -120,7 +114,7 @@ namespace StoreApp.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                unitOfWork.Dispose();
             }
             base.Dispose(disposing);
         }

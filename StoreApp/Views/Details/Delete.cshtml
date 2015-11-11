@@ -6,10 +6,10 @@
 
 <h2>Удаление детали</h2>
 
-<h3>Вы уверены, что хотите удалить указанный материал?</h3>
+<h3>Вы уверены, что хотите удалить указанную деталь?</h3>
 <div>
     <hr />
-    <p>Материал <b>@Html.DisplayFor(model => model.name)</b> состоит из <b>@Html.DisplayFor(model => model.Material.name) (@Html.DisplayFor(model => model.count) шт)</b></p>
+    <p>Деталь <b>@Html.DisplayFor(model => model.name)</b> состоит из материала <b>@Html.DisplayFor(model => model.Material.name) (@Html.DisplayFor(model => model.count) шт)</b></p>
 
     <div>
         @using (Html.BeginForm()) {
