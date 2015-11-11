@@ -5,7 +5,8 @@
 
 <h2>Статистика</h2>
 
-<table class="table">
+
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.productName)
@@ -20,9 +21,52 @@
                 @Html.DisplayFor(modelItem => item.productName)
             </td>
             <td>
-                @Html.DisplayFor(el => item.count )
+                @Html.DisplayFor(el => item.count)
             </td>
         </tr>
     }
 
-</table>
+</table>*@
+
+
+    <div ng-app="myApp" ng-controller="ProductsCtrl">
+        <button class="btn btn-default" ng-click="updateProductsList()">
+            <span class="glyphicon glyphicon-refresh"></span> &nbsp;Обновить
+        </button>
+
+        <button class="btn btn-default" ng-click="updateProductsList()">
+            <span class="glyphicon glyphicon-new-window"></span> &nbsp;Изготовить деталь
+        </button>
+
+        <table id="productsList" class="table table-striped">
+            <tr>
+                <th>Наименование продукта</th>
+                <th>Доступное количество</th>
+            </tr>
+            @*<tr ng-repeat="product in model.products">
+                <td ng-bind="product.productName"></td>
+                <td >
+                    <span ng-bind="product.count"></span>
+                </td>
+                @*<td ng-bind="product.count">{{product.count}}</td>
+            </tr>*@
+            <tr ng-repeat="product in model.products">
+                <td ng-bind ="product.productName"></td>
+                <td ng-model="product.count"></td>
+            </tr>
+        </table>
+        <div ng-hide="model.isLoading"><p>Loading...</p></div>
+        @*<p>Первый элемент: <span ng-bind="phones[0].name"></span></p>*@
+    </div>
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/angularjs")
+    @*<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>*@
+    <script>
+        //angular.module('statisticsControllers', []);
+
+    </script>
+    @Scripts.Render("~/bundles/statistics")
+}

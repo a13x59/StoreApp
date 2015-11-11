@@ -8,6 +8,8 @@ namespace StoreApp.Models
 {
     public class StatisticsViewModel
     {
+        public int productId { set; get; }
+
         [DisplayName("Наименование продукта")]
         public string productName { set; get; }
 
