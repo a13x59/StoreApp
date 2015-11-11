@@ -1,16 +1,13 @@
 ﻿@model StoreApp.Models.ProductsDetail
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление детали из изделия";
 }
 
 <h2>Удаление детали из изделия</h2>
 
-@*<div>
-    @Html.ActionLink("Вернуться к редактированию продукта", "Edit", new { id = @Model.Product.id})
-</div>*@
-
 <h3>Вы уверены что хотиту удалить указанную деталь из издения?</h3>
+
 <div>
     <p>
         <span>Удаление детали <b>@Html.DisplayFor(model => model.Detail.name)</b> из изделия <b>@Html.DisplayFor(model => model.Product.name)</b></span>

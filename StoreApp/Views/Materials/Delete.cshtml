@@ -1,7 +1,7 @@
 ﻿@model StoreApp.Models.Material
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удаление материала";
 }
 
 <h2>Удаление материала</h2>
@@ -17,14 +17,6 @@
         <dd>
             @Html.DisplayFor(model => model.name)
         </dd>
-
-        @*<dt>
-            @Html.DisplayNameFor(model => model.count)
-        </dt>*@
-
-        @*<dd>
-            @Html.DisplayFor(model => model.count)
-        </dd>*@
     </dl>
 
     @using (Html.BeginForm()) {

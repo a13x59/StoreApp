@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+Test controller
+Not available via web
+*/
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -16,6 +20,7 @@ namespace StoreApp.Controllers
         private StorageDataBaseEntities db = new StorageDataBaseEntities();
 
         // GET: ProductsDetails
+        [NonAction]
         public async Task<ActionResult> Index()
         {
             var productsDetails = db.ProductsDetails.Include(p => p.Detail).Include(p => p.Product);
@@ -23,6 +28,7 @@ namespace StoreApp.Controllers
         }
 
         // GET: ProductsDetails/Details/5
+        [NonAction]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,6 +46,7 @@ namespace StoreApp.Controllers
         }
 
         // GET: ProductsDetails/Create
+        [NonAction]
         public ActionResult Create()
         {
             ViewBag.detail_id = new SelectList(db.Details, "id", "name");
@@ -52,6 +59,7 @@ namespace StoreApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [NonAction]
         public async Task<ActionResult> Create([Bind(Include = "id,product_id,detail_id,count")] ProductsDetail productDetail)
         {
             if (ModelState.IsValid)
@@ -67,6 +75,7 @@ namespace StoreApp.Controllers
         }
 
         // GET: ProductsDetails/Edit/5
+        [NonAction]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,6 +98,7 @@ namespace StoreApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [NonAction]
         public async Task<ActionResult> Edit([Bind(Include = "id,product_id,detail_id,count")] ProductsDetail productDetail)
         {
             if (ModelState.IsValid)
@@ -103,6 +113,7 @@ namespace StoreApp.Controllers
         }
 
         // GET: ProductsDetails/Delete/5
+        [NonAction]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -120,6 +131,7 @@ namespace StoreApp.Controllers
         // POST: ProductsDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [NonAction]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             ProductsDetail productDetail = await db.ProductsDetails.FindAsync(id);

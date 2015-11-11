@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<StoreApp.Models.Detail>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Детали";
 }
 
 <h2>Детали</h2>
@@ -36,7 +36,6 @@
         </td>
         <td>
             @Html.ActionLink("Редактировать", "Edit", new { id=item.id }) |
-            @*@Html.ActionLink("Details", "Details", new { id=item.id }) |*@
             @Html.ActionLink("Удалить", "Delete", new { id=item.id })
         </td>
     </tr>

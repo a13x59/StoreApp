@@ -1,7 +1,7 @@
 ﻿@model StoreApp.Models.ProductsDetail
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактирование детали";
 }
 
 <h2>Редактирование детали</h2>
@@ -9,7 +9,6 @@
 <div>
     @Html.ActionLink("Вернуться к редактированию продукта", "Edit", new { id = @ViewBag.product.id })
 </div>
-
 
 @using (Html.BeginForm())
 {
@@ -23,29 +22,20 @@
         @Html.HiddenFor(model => model.detail_id)
 
         <div class="form-group">
-            @*@Html.LabelFor(model => model.product, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <label class="control-label col-md-2">Продукт</label>
             <div class="col-md-10">
-                @*@Html.LabelFor(model => ViewBag.product.name, htmlAttributes: new { @class = "control-label col-md-2" })*@
                 <label>@ViewBag.product.name</label>
-                @*@Html.Editor(ViewBag.product.name)*@
-                @*@Html.DropDownList("product_id", null, htmlAttributes: new { @class = "form-control" })*@
-                @*@Html.ValidationMessageFor(model => model.product_id, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
         <div class="form-group">
-            @*@Html.LabelFor(model => model.detail_id, "detail_id", htmlAttributes: new { @class = "control-label col-md-2" })*@
             <label class="control-label col-md-2">Деталь</label>
             <div class="col-md-10">
                 <label >@ViewBag.detail.name</label>
-                @*@Html.DropDownList("detail_id", null, htmlAttributes: new { @class = "form-control" })*@
-                @*@Html.ValidationMessageFor(model => model.detail_id, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
         <div class="form-group">
-            @*@Html.LabelFor(model => model.count, htmlAttributes: new { @class = "control-label col-md-2" })*@
             <label class="control-label col-md-2">Количество</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.count, new { htmlAttributes = new { @class = "form-control" } })
