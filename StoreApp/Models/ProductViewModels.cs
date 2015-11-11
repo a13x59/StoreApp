@@ -20,4 +20,13 @@ namespace StoreApp.Models
 
         public int count { set; get; }
     }
+
+    public class ProductMaterialDto
+    {
+        public int product_id { set; get; }
+
+        public int material_id { set; get; }
+
+        public double sum { set; get; }
+    }
 }

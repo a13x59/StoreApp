@@ -11,8 +11,7 @@ namespace StoreApp.DAL
         private StorageDataBaseEntities context = new StorageDataBaseEntities();
         private GenericRepository<Material> materialsRepository;
         private GenericRepository<Detail> detailsRepository;
-        private GenericRepository<Product> productsRepository;
-        //private GenericRepository<ProductsDetail> productsDetailRepository;
+        private ProductsRepository productsRepository;
         private ProductDetailsRepository productsDetailRepository;
 
         private bool disposed = false;
@@ -57,13 +56,13 @@ namespace StoreApp.DAL
             }
         }
 
-        public GenericRepository<Product> ProductsRepository
+        public ProductsRepository ProductsRepository
         {
             get
             {
                 if (this.productsRepository == null)
                 {
-                    this.productsRepository = new GenericRepository<Product>(context);
+                    this.productsRepository = new ProductsRepository(context);
                 }
                 return productsRepository;
             }
