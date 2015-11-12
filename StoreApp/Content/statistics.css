@@ -1,0 +1,7 @@
+﻿table#productsList tr > td {
+    cursor: pointer;
+}
+
+    table#productsList tr.selected > td {
+        background-color: #dff0d8;
+    }

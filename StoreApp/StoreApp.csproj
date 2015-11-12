@@ -143,7 +143,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Class1.cs" />
     <Compile Include="Models\Detail.cs">
       <DependentUpon>StoreModel.tt</DependentUpon>
     </Compile>

@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StorageDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Details">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="material_id" Type="int" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Materials">
+          <Key>
+            <PropertyRef Name="material_id" />
+          </Key>
+          <Property Name="material_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+          <Property Name="rowversion" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductsDetails">
+          <Key>
+            <PropertyRef Name="product_id" />
+            <PropertyRef Name="detail_id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_id" Type="int" Nullable="false" />
+          <Property Name="detail_id" Type="int" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Details_To_Materials">
+          <End Role="Materials" Type="Self.Materials" Multiplicity="1" />
+          <End Role="Details" Type="Self.Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="material_id" />
+            </Principal>
+            <Dependent Role="Details">
+              <PropertyRef Name="material_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductsDetails_To_Details">
+          <End Role="Details" Type="Self.Details" Multiplicity="1" />
+          <End Role="ProductsDetails" Type="Self.ProductsDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Details">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductsDetails">
+              <PropertyRef Name="detail_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductsDetails_To_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="ProductsDetails" Type="Self.ProductsDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductsDetails">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StorageDataBaseModelStoreContainer">
+          <EntitySet Name="Details" EntityType="Self.Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Materials" EntityType="Self.Materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductsDetails" EntityType="Self.ProductsDetails" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Details_To_Materials" Association="Self.FK_Details_To_Materials">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="Details" EntitySet="Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductsDetails_To_Details" Association="Self.FK_ProductsDetails_To_Details">
+            <End Role="Details" EntitySet="Details" />
+            <End Role="ProductsDetails" EntitySet="ProductsDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductsDetails_To_Products" Association="Self.FK_ProductsDetails_To_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductsDetails" EntitySet="ProductsDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StorageDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ProductsDetails" Relationship="StorageDataBaseModel.FK_ProductsDetails_To_Products" FromRole="Product" ToRole="ProductsDetail" />
+        </EntityType>
+        <EntityContainer Name="StorageDataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="Materials" EntityType="StorageDataBaseModel.Material" />
+          <EntitySet Name="ProductsDetails" EntityType="StorageDataBaseModel.ProductsDetail" />
+          <AssociationSet Name="FK_ProductsDetails_To_Products" Association="StorageDataBaseModel.FK_ProductsDetails_To_Products">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductsDetail" EntitySet="ProductsDetails" />
+          </AssociationSet>
+          <EntitySet Name="Details" EntityType="StorageDataBaseModel.Detail" />
+          <AssociationSet Name="FK_Details_To_Materials" Association="StorageDataBaseModel.FK_Details_To_Materials">
+            <End Role="Material" EntitySet="Materials" />
+            <End Role="Detail" EntitySet="Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductsDetails_To_Details" Association="StorageDataBaseModel.FK_ProductsDetails_To_Details">
+            <End Role="Detail" EntitySet="Details" />
+            <End Role="ProductsDetail" EntitySet="ProductsDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="material_id" />
+          </Key>
+          <Property Name="material_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+          <Property Name="rowversion" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Details" Relationship="StorageDataBaseModel.FK_Details_To_Materials" FromRole="Material" ToRole="Detail" />
+        </EntityType>
+        <EntityType Name="ProductsDetail">
+          <Key>
+            <PropertyRef Name="product_id" />
+            <PropertyRef Name="detail_id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_id" Type="Int32" Nullable="false" />
+          <Property Name="detail_id" Type="Int32" Nullable="false" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="StorageDataBaseModel.FK_ProductsDetails_To_Products" FromRole="ProductsDetail" ToRole="Product" />
+          <NavigationProperty Name="Detail" Relationship="StorageDataBaseModel.FK_ProductsDetails_To_Details" FromRole="ProductsDetail" ToRole="Detail" />
+        </EntityType>
+        <Association Name="FK_ProductsDetails_To_Products">
+          <End Type="StorageDataBaseModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="StorageDataBaseModel.ProductsDetail" Role="ProductsDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductsDetail">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Detail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="material_id" Type="Int32" Nullable="false" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Material" Relationship="StorageDataBaseModel.FK_Details_To_Materials" FromRole="Detail" ToRole="Material" />
+          <NavigationProperty Name="ProductsDetails" Relationship="StorageDataBaseModel.FK_ProductsDetails_To_Details" FromRole="Detail" ToRole="ProductsDetail" />
+        </EntityType>
+        <Association Name="FK_Details_To_Materials">
+          <End Type="StorageDataBaseModel.Material" Role="Material" Multiplicity="1" />
+          <End Type="StorageDataBaseModel.Detail" Role="Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="material_id" />
+            </Principal>
+            <Dependent Role="Detail">
+              <PropertyRef Name="material_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductsDetails_To_Details">
+          <End Type="StorageDataBaseModel.Detail" Role="Detail" Multiplicity="1" />
+          <End Type="StorageDataBaseModel.ProductsDetail" Role="ProductsDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Detail">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductsDetail">
+              <PropertyRef Name="detail_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StorageDataBaseModelStoreContainer" CdmEntityContainer="StorageDataBaseEntities">
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="StorageDataBaseModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materials">
+            <EntityTypeMapping TypeName="StorageDataBaseModel.Material">
+              <MappingFragment StoreEntitySet="Materials">
+                <ScalarProperty Name="rowversion" ColumnName="rowversion" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="material_id" ColumnName="material_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductsDetails">
+            <EntityTypeMapping TypeName="StorageDataBaseModel.ProductsDetail">
+              <MappingFragment StoreEntitySet="ProductsDetails">
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="detail_id" ColumnName="detail_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Details">
+            <EntityTypeMapping TypeName="StorageDataBaseModel.Detail">
+              <MappingFragment StoreEntitySet="Details">
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="material_id" ColumnName="material_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
