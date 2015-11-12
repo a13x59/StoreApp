@@ -27,6 +27,6 @@ namespace StoreApp.Models
 
         public int material_id { set; get; }
 
-        public double sum { set; get; }
+        public int sum { set; get; }
     }
 }

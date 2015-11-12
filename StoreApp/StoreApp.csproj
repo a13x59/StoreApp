@@ -143,6 +143,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Class1.cs" />
     <Compile Include="Models\Detail.cs">
       <DependentUpon>StoreModel.tt</DependentUpon>
     </Compile>
@@ -162,12 +163,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StoreModel.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StoreModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StoreModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StoreModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>StoreModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\HtmlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\StorageDataBase.mdf" />
@@ -176,6 +183,7 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\statistics.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

@@ -3,70 +3,41 @@
     ViewBag.Title = "Статистика";
 }
 
+@section styles{
+    @Styles.Render("~/statistics/css")
+}
+
 <h2>Статистика</h2>
 
+<div ng-app="productsApp" ng-controller="ProductsCtrl">
+    <button class="btn btn-default" ng-click="updateProductsList()">
+        <span class="glyphicon glyphicon-refresh"></span> &nbsp;Обновить
+    </button>
 
-@*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.productName)
-        </th>
-        <th>@Html.DisplayNameFor(model => model.count)</th>
-    </tr>
+    <button class="btn btn-default" ng-click="makeProduct()" ng-disabled="model.selectedProduct == null">
+        <span class="glyphicon glyphicon-new-window"></span> &nbsp;Изготовить деталь
+    </button>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.productName)
-            </td>
-            <td>
-                @Html.DisplayFor(el => item.count)
-            </td>
-        </tr>
-    }
-
-</table>*@
-
-
-    <div ng-app="myApp" ng-controller="ProductsCtrl">
-        <button class="btn btn-default" ng-click="updateProductsList()">
-            <span class="glyphicon glyphicon-refresh"></span> &nbsp;Обновить
-        </button>
-
-        <button class="btn btn-default" ng-click="updateProductsList()">
-            <span class="glyphicon glyphicon-new-window"></span> &nbsp;Изготовить деталь
-        </button>
-
-        <table id="productsList" class="table table-striped">
+    <table id="productsList" class="table table-striped">
+        <thead>
             <tr>
                 <th>Наименование продукта</th>
                 <th>Доступное количество</th>
             </tr>
-            @*<tr ng-repeat="product in model.products">
+        </thead>
+        <tbody>
+            <tr ng-repeat="product in model.products" ng-click='selectProduct(product)' ng-class="{'selected': product.productId === model.selectedProduct.productId}" )>
                 <td ng-bind="product.productName"></td>
-                <td >
-                    <span ng-bind="product.count"></span>
-                </td>
-                @*<td ng-bind="product.count">{{product.count}}</td>
-            </tr>*@
-            <tr ng-repeat="product in model.products">
-                <td ng-bind ="product.productName"></td>
-                <td ng-model="product.count"></td>
+                <td ng-bind="product.count"></td>
             </tr>
-        </table>
-        <div ng-hide="model.isLoading"><p>Loading...</p></div>
-        @*<p>Первый элемент: <span ng-bind="phones[0].name"></span></p>*@
-    </div>
+        </tbody>
+    </table>
+    <div ng-show="model.isLoading"><p>Загрузка...</p></div>
+</div>
 
 
 
 @section scripts{
     @Scripts.Render("~/bundles/angularjs")
-    @*<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>*@
-    <script>
-        //angular.module('statisticsControllers', []);
-
-    </script>
     @Scripts.Render("~/bundles/statistics")
 }

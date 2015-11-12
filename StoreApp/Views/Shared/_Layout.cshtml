@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using StoreApp.Helpers;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,6 +7,7 @@
     <title>@ViewBag.Title - StoreApp</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,10 +22,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Материалы", "Index", "Materials")</li>
-                    <li>@Html.ActionLink("Детали", "Index", "Details")</li>
-                    <li>@Html.ActionLink("Изделия", "Index", "Products")</li>
-                    <li>@Html.ActionLink("Статистика", "Index", "Statistics")</li>
+                    @Html.MenuItem("Материалы", "Index", "Materials")
+                    @Html.MenuItem("Детали", "Index", "Details")
+                    @Html.MenuItem("Изделия", "Index", "Products")
+                    @Html.MenuItem("Статистика", "Index", "Statistics")
                 </ul>
             </div>
         </div>

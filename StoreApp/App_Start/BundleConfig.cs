@@ -32,6 +32,9 @@ namespace StoreApp
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/statistics/css").Include(
+                      "~/Content/statistics.css"));
         }
     }
 }

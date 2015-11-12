@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using StoreApp.Models;
 using StoreApp.DAL;
+using System.Data.Entity.Infrastructure;
 
 namespace StoreApp.Controllers
 {
@@ -16,7 +17,7 @@ namespace StoreApp.Controllers
         public ActionResult Index()
         {
             List<StatisticsViewModel> result = new List<StatisticsViewModel>();
-            List<ProductMaterialDto> productMaterialsList = unitOfWork.ProductsRepository.GetProductMaterialsSum(unitOfWork.MaterialsRepository.Get());
+            List<ProductMaterialDto> productMaterialsList = unitOfWork.ProductsRepository.GetProductMaterialsSum();
             List<ProductMaterialDto> pmdList = new List<ProductMaterialDto>();
             Material material;
             var materialsList = unitOfWork.MaterialsRepository.Get();
@@ -40,7 +41,7 @@ namespace StoreApp.Controllers
                 foreach (var item in pmdList)
                 {
                     material = materialsList.First(m => m.material_id == item.material_id);
-                    productsCount = (int)((double)material.count / item.sum);
+                    productsCount = material.count / item.sum;
 
                     if (productsCount == 0)
                     {
@@ -59,10 +60,10 @@ namespace StoreApp.Controllers
             return View(result);
         }
 
-        public ActionResult GetProductsMaterialsSum()
+        public ActionResult GetProductsSum()
         {
             List<StatisticsViewModel> result = new List<StatisticsViewModel>();
-            List<ProductMaterialDto> productMaterialsList = unitOfWork.ProductsRepository.GetProductMaterialsSum(unitOfWork.MaterialsRepository.Get());
+            List<ProductMaterialDto> productMaterialsList = unitOfWork.ProductsRepository.GetProductMaterialsSum();
             List<ProductMaterialDto> pmdList = new List<ProductMaterialDto>();
             Material material;
             var materialsList = unitOfWork.MaterialsRepository.Get();
@@ -86,7 +87,7 @@ namespace StoreApp.Controllers
                 foreach (var item in pmdList)
                 {
                     material = materialsList.First(m => m.material_id == item.material_id);
-                    productsCount = (int)((double)material.count / item.sum);
+                    productsCount = material.count / item.sum;
 
                     if (productsCount == 0)
                     {
@@ -103,6 +104,56 @@ namespace StoreApp.Controllers
             }
 
             return Json(result);
+        }
+
+        public ActionResult MakeProduct(int id)
+        {
+            try
+            {
+                Product product = unitOfWork.ProductsRepository.GetById(id);
+
+                if (product == null)
+                {
+                    throw new Exception("Продукт не найден");
+                }
+
+                //сколько нужно каждого материала?
+                List<ProductMaterialDto> pmDto = unitOfWork.ProductsRepository.GetProductMaterialsSum(id);
+                ProductMaterialDto pm;
+
+                int[] mIds = pmDto.Select(m => m.material_id).ToArray();
+
+                if (mIds.Length == 0)
+                {
+                    throw new Exception("Не заданы материалы для продукта");
+                }
+
+                List<Material> productMaterials = unitOfWork.MaterialsRepository.Get(m => mIds.Contains(m.material_id)).ToList();
+
+                foreach (var material in productMaterials)
+                {
+                    pm = pmDto.First(el => el.material_id == material.material_id);
+
+                    if (pm.sum > material.count)
+                    {
+                        throw new Exception("Недостаточно материала: " + material.name);
+                    }
+
+                    material.count -= pm.sum;//в этот момент данные могли измениться
+                    unitOfWork.MaterialsRepository.Update(material);
+                }
+                unitOfWork.Save();//при отличии rowversion генерируется исключение DbUpdateConcurrencyException
+
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return Json(new { result = "error", message = "Количество материалов на складе изменилось, попробуйте обновить данные" + ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "error", message = ex.Message });
+            }
+            return Json(new { result = id });
         }
     }
 }
