@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using StoreApp.Models;
 using StoreApp.DAL;
 using System.Data.Entity.Infrastructure;
+using System.Threading;
 
 namespace StoreApp.Controllers
 {
@@ -16,55 +17,14 @@ namespace StoreApp.Controllers
         // GET: Statistics
         public ActionResult Index()
         {
-            List<StatisticsViewModel> result = new List<StatisticsViewModel>();
-            List<ProductMaterialDto> productMaterialsList = unitOfWork.ProductsRepository.GetProductMaterialsSum();
-            List<ProductMaterialDto> pmdList = new List<ProductMaterialDto>();
-            Material material;
-            var materialsList = unitOfWork.MaterialsRepository.Get();
-            var allProductsList = unitOfWork.ProductsRepository.Get();
-            int[] productIds = new int[] { };
-            int? minCount, productsCount = 0;
-
-            foreach (var product in allProductsList)
-            {
-                productIds = product.ProductsDetails.Select(p => p.product_id).ToArray();
-                pmdList = productMaterialsList.Where(it => productIds.Contains(it.product_id)).ToList();
-                minCount = null;
-
-                StatisticsViewModel swm = new StatisticsViewModel()
-                {
-                    productId = product.id,
-                    productName = product.name,
-                    count = 0
-                };
-
-                foreach (var item in pmdList)
-                {
-                    material = materialsList.First(m => m.material_id == item.material_id);
-                    productsCount = material.count / item.sum;
-
-                    if (productsCount == 0)
-                    {
-                        minCount = 0;
-                        break;
-                    }
-
-                    if (!minCount.HasValue || productsCount < minCount)
-                        minCount = productsCount;
-                }
-
-                swm.count = minCount.Value;
-                result.Add(swm);
-            }
-
-            return View(result);
+            return View();
         }
 
         public ActionResult GetProductsSum()
         {
-            List<StatisticsViewModel> result = new List<StatisticsViewModel>();
+            var result = new List<StatisticsViewModel>();
             List<ProductMaterialDto> productMaterialsList = unitOfWork.ProductsRepository.GetProductMaterialsSum();
-            List<ProductMaterialDto> pmdList = new List<ProductMaterialDto>();
+            var pmdList = new List<ProductMaterialDto>();
             Material material;
             var materialsList = unitOfWork.MaterialsRepository.Get();
             var allProductsList = unitOfWork.ProductsRepository.Get();
@@ -99,7 +59,8 @@ namespace StoreApp.Controllers
                         minCount = productsCount;
                 }
 
-                swm.count = minCount.Value;
+                swm.count = minCount ?? 0;
+
                 result.Add(swm);
             }
 
@@ -145,7 +106,7 @@ namespace StoreApp.Controllers
                 unitOfWork.Save();//при отличии rowversion генерируется исключение DbUpdateConcurrencyException
 
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException ex)//ловим concurrent исключения
             {
                 return Json(new { result = "error", message = "Количество материалов на складе изменилось, попробуйте обновить данные" + ex.Message });
             }
@@ -153,6 +114,7 @@ namespace StoreApp.Controllers
             {
                 return Json(new { result = "error", message = ex.Message });
             }
+
             return Json(new { result = id });
         }
     }

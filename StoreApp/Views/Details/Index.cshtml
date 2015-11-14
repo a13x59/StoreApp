@@ -9,36 +9,41 @@
 <p>
     @Html.ActionLink("Добавить новую деталь", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Наименование
-        </th>
-        <th>
-            Количество материала для производства 1 детали
-        </th>
-        <th>
-            Наименование материала
-        </th>
-        <th></th>
-    </tr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Наименование
+            </th>
+            <th>
+                Количество материала для производства 1 детали
+            </th>
+            <th>
+                Наименование материала
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Material.name)
+                </td>
+                <td class="right-aligh">
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.id }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.id })
+                </td>
+            </tr>
+        }
+    </tbody>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.count)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Material.name)
-        </td>
-        <td>
-            @Html.ActionLink("Редактировать", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Удалить", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
 
 </table>

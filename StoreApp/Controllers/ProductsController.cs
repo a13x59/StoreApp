@@ -19,7 +19,6 @@ namespace StoreApp.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            //return View(await db.Products.ToListAsync());
             return View(unitOfWork.ProductsRepository.Get());
         }
 

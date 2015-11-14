@@ -10,9 +10,7 @@ productsApp.controller('ProductsCtrl', function ($scope) {
     };
 
     $scope.selectProduct = function (product) {
-        var model = $scope.model;
-
-        model.selectedProduct = product;
+        $scope.model.selectedProduct = product;
     };
 
     $scope.updateProductsList = function () {
@@ -73,6 +71,12 @@ productsApp.controller('ProductsCtrl', function ($scope) {
                 console.log(res);
             }
         });
+    };
+
+    $scope.isEnableMakeButton = function () {
+        var model = $scope.model;
+
+        return model.selectedProduct != null && model.selectedProduct.count > 0;
     };
 
     $scope.updateProductsList();

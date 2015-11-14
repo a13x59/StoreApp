@@ -47,7 +47,6 @@ namespace StoreApp.Controllers
         }
 
         // GET: Materials/Edit/5
-        //public async Task<ActionResult> Edit(int? id)
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -68,7 +67,6 @@ namespace StoreApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Edit([Bind(Include = "material_id,name,count")] Material material)
         public ActionResult Edit([Bind(Include = "material_id,name,count")] Material material)
         {
             if (ModelState.IsValid)
@@ -103,7 +101,6 @@ namespace StoreApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            //Material detail = unitOfWork.MaterialsRepository.GetById(id);
             unitOfWork.MaterialsRepository.Delete(id);
             unitOfWork.Save();
 

@@ -35,32 +35,34 @@
 
         <div class="form-group">
             <table class="table">
-                <tr>
-                    <th>
-                        Список делатей в изделии
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model.details)
-                {
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.name) - @Html.DisplayFor(modelItem => item.count) шт
-                        </td>
-                        <td>
-                            @Html.ActionLink("Редактировать", "EditDetail", new { id = item.id}) |
-                            @Html.ActionLink("Удалить", "DeleteDetail", new { id = item.id })
+                        <th>
+                            Список делатей в изделии
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.details)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.name) - @Html.DisplayFor(modelItem => item.count) шт
+                            </td>
+                            <td class="right-aligh">
+                                @Html.ActionLink("Редактировать", "EditDetail", new { id = item.id}) |
+                                @Html.ActionLink("Удалить", "DeleteDetail", new { id = item.id })
+                            </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td colspan="2">
+                            @Html.ActionLink("Добавить деталь в изделие", "AddDetail", new { id = Model.product.id })
                         </td>
                     </tr>
-                }
-
-                <tr>
-                    <td colspan="2">
-                        @Html.ActionLink("Добавить деталь в изделие", "AddDetail", new { id = Model.product.id })
-                    </td>
-                </tr>
-
+                </tbody>
             </table>
         </div>
     </div>

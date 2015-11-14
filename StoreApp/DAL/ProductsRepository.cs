@@ -18,24 +18,18 @@ namespace StoreApp.DAL
         /// </summary>
         public List<ProductMaterialDto> GetProductMaterialsSum(int? id = null)
         {
-            //TODO: move to resources
-            var query = "SELECT pd.product_id, d.material_id, SUM(d.count * pd.count) AS 'sum' FROM ProductsDetails pd " +
-                        "JOIN Details d " +
-                        "ON d.id = pd.detail_id " +
-                        "{0} " + 
-                        "GROUP BY pd.product_id, d.material_id " +
-                        "ORDER BY pd.product_id";
+            string query;
 
             if (id.HasValue)
             {
-                query = String.Format(query, "WHERE pd.product_id = @p0");
+                query = String.Format(StoreAppSqlResources.ProductMaterialsQuery, "WHERE pd.product_id = @p0");
                 var data = this.context.Database.SqlQuery<ProductMaterialDto>(query, id.Value);
 
                 return data.ToList();
             }
             else
             {
-                query = String.Format(query, String.Empty);
+                query = String.Format(StoreAppSqlResources.ProductMaterialsQuery, String.Empty);
                 var data = this.context.Database.SqlQuery<ProductMaterialDto>(query);
 
                 return data.ToList();
